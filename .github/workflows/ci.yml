@@ -19,7 +19,9 @@ jobs:
         os: [ubuntu-20.04, macos-11, windows-2022]
 
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+        with:
+          submodules: true
 
       - name: Build(cmake)
         run: |
@@ -49,6 +51,7 @@ jobs:
           popd
 
       - name: Build bindings(webassembly)
+        if: runner.os == 'Linux'
         run: |
           pushd cola/bindings/webassembly/libavoid-js/
           mkdir build
