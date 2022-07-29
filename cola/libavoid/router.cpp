@@ -311,9 +311,39 @@ void Router::deleteShape(ShapeRef *shape)
 
 void Router::deleteConnector(ConnRef *connector)
 {
+    std::pair<ConnEnd, ConnEnd> connector_connends =  connector->endpointConnEnds();
+    int deleted_connector_src_shape_id = -1;
+    if (connector_connends.first.shape()) {
+        deleted_connector_src_shape_id = connector_connends.first.shape()->id();
+    }
+
+    int deleted_connector_dst_shape_id = -1;
+    if (connector_connends.second.shape()) {
+        deleted_connector_dst_shape_id = connector_connends.second.shape()->id();
+    }
+
     m_currently_calling_destructors = true;
     delete connector;
     m_currently_calling_destructors = false;
+
+    // deleting connector can have impact on all existing edges, that are
+    // near the deleted one. To avoid recalculating all edges, mark only those as changed,
+    // that are either from the same shape or to the same, they can have the most noticeable problems
+    // after deleting of connector.
+    ConnRefList::const_iterator fin = connRefs.end();
+    for (ConnRefList::const_iterator i = connRefs.begin(); i != fin; ++i)
+    {
+        std::pair<ConnEnd, ConnEnd> i_connends = (*i)->endpointConnEnds();
+        if (i_connends.first.shape()
+            && (i_connends.first.shape()->id() == deleted_connector_src_shape_id || i_connends.first.shape()->id() == deleted_connector_dst_shape_id)) {
+            modifyConnector((*i));
+        }
+
+        if (i_connends.second.shape()
+            && (i_connends.second.shape()->id() == deleted_connector_src_shape_id || i_connends.second.shape()->id() == deleted_connector_dst_shape_id)) {
+            modifyConnector((*i));
+        }
+    }
 }
 
 void Router::moveShape(ShapeRef *shape, const double xDiff, const double yDiff)

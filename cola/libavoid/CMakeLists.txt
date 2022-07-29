@@ -158,9 +158,14 @@ if (ENABLE_TESTS)
                 COMMAND test_avoid_${TEST_CASE})
     endforeach()
 
+    add_library(testHelpers tests/new/helpers.cpp)
+    target_include_directories(testHelpers PUBLIC tests/new/)
+    target_link_libraries(testHelpers gmock_main ${PROJECT_NAME})
+
     # new tests with test framework
     set(NEW_TEST_CASES
-        orthogonal/hierarchical)
+        connectorChanges
+    )
     foreach(TEST_CASE IN LISTS NEW_TEST_CASES)
         set(TARGET_NAME "")
         string(REPLACE "/" "_" TARGET_NAME ${TEST_CASE})
@@ -173,6 +178,7 @@ if (ENABLE_TESTS)
                 ${FULL_TARGET_NAME}
                 gtest_main
                 gmock_main
+                testHelpers
                 ${PROJECT_NAME}
         )
         # 'output' is added to IMAGE_OUTPUT_PATH inside of tests to keep compatibility with Makefile build
