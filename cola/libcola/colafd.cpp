@@ -24,6 +24,9 @@
 // cmath needs ::strcpy_s under MinGW so include cstring.
 #include <cstring>
 
+// Prevent inclusion of min and max macros.
+#define NOMINMAX
+
 #include <vector>
 #include <cmath>
 #include <limits>
