@@ -8,7 +8,6 @@ option(NUDGE_DEBUG "Debug nudging" OFF)
 option(ESTIMATED_COST_DEBUG "Debug estimated cost" OFF)
 option(ASTAR_DEBUG "Debug ASTAR" OFF)
 
-set(CMAKE_MFC_FLAG 2)
 add_library(${PROJECT_NAME}
     actioninfo.cpp
     connectionpin.cpp

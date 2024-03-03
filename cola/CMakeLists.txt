@@ -5,6 +5,7 @@ option(ENABLE_TESTS "Build tests" OFF)
 
 # adaptagrams libs and GoogleTest require at least C++11
 set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_MFC_FLAG 2)
 
 if (ENABLE_TESTS)    
     enable_testing()

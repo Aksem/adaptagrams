@@ -19,6 +19,10 @@
 */
 
 #include <utility>
+// Prevent inclusion of min and max macros.
+#define NOMINMAX
+#include <limits>
+#include <cmath>
 
 #include "libvpsc/rectangle.h"
 #include "libvpsc/constraint.h"
