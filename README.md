@@ -89,6 +89,15 @@ You'll need to call `aclocal`,
 
 Run `./autogen.sh` to compile from scratch.
 
+###  Compile with MSVC
+
+To compile the project with MSVC, you need to install following components in your system:
+
+- C++-ATL (v141 in case of VS2019)
+- C++ MFC (v141 in case of VS2019)
+
+You can use Visual Studio Build Tools for that.
+
 Use from other languages
 ------------------------
 
