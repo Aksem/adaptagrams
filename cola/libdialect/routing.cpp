@@ -39,7 +39,6 @@ using namespace dialect;
 
 using Avoid::Router;
 using Avoid::Point;
-using Avoid::Polygon;
 using Avoid::PolyLine;
 using Avoid::ConnRef;
 using Avoid::ConnEnd;
@@ -53,7 +52,7 @@ typedef std::pair<ConnEnd, ConnEnd> ConnEndPair;
 void RoutingAdapter::addNodes(const NodesById &nodes) {
     for (auto p : nodes) {
         // Ask the node to compute its polygon.
-        Polygon poly = p.second->makeLibavoidPolygon();
+        Avoid::Polygon poly = p.second->makeLibavoidPolygon();
         // Allocate a ShapeRef and add it to the router.
         ShapeRef *sr = new ShapeRef(&router, poly);
         // Store in local lookup.

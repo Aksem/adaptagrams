@@ -95,10 +95,16 @@ Run `./autogen.sh` to compile from scratch.
 
 To compile the project with MSVC, you need to install following components in your system:
 
-- C++-ATL (v141 in case of VS2019)
-- C++ MFC (v141 in case of VS2019)
+- C++-ATL
+- C++ MFC
 
 You can use Visual Studio Build Tools for that.
+
+Usage Notes
+-----------
+
+1. We recommend to not to use members of adaptagrams libraries for example by `using namespace Avoid`, because many names
+like `Rectangle`, `Polygon` etc. will conflict with WinGDI if compiling with MSVC.
 
 Use from other languages
 ------------------------

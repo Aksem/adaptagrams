@@ -63,7 +63,6 @@ using std::ostringstream;
 using std::map;
 using std::fabs;
 
-using vpsc::Rectangle;
 using vpsc::Rectangles;
 
 using cola::CompoundConstraints;
@@ -136,7 +135,7 @@ Graph::Graph(const Graph &G)
 
 Graph::~Graph(void) {
     delete m_cfdl;
-    for (Rectangle *r : m_cgr.rs) delete r;
+    for (vpsc::Rectangle *r : m_cgr.rs) delete r;
 }
 
 Graph &Graph::operator=(Graph other) {
@@ -641,7 +640,7 @@ ColaGraphRep &Graph::updateColaGraphRep(void) {
         size_t i = 0;
         for (auto p : m_nodes) {
             BoundingBox b = p.second->getBoundingBox();
-            m_cgr.rs.push_back(new Rectangle(b.x, b.X, b.y, b.Y));
+            m_cgr.rs.push_back(new vpsc::Rectangle(b.x, b.X, b.y, b.Y));
             m_cgr.id2ix.emplace(p.first, i);
             m_cgr.ix2id.emplace(i, p.first);
             ++i;
@@ -688,7 +687,7 @@ cola::RootCluster *Graph::buildRootCluster(const ColaOptions &opts) {
 
 void Graph::updateNodesFromRects(bool xAxis, bool yAxis) {
     for (auto p : m_nodes) {
-        Rectangle *r = m_cgr.rs.at(m_cgr.id2ix[p.second->id()]);
+        vpsc::Rectangle *r = m_cgr.rs.at(m_cgr.id2ix[p.second->id()]);
         Node_SP u = p.second;
         if (xAxis) u->updateXCoordFromRect(r);
         if (yAxis) u->updateYCoordFromRect(r);

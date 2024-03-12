@@ -61,7 +61,6 @@ using vpsc::Variable;
 using vpsc::Variables;
 using vpsc::Constraint;
 using vpsc::Constraints;
-using vpsc::Rectangle;
 using vpsc::Rectangles;
 
 namespace cola {
@@ -1628,13 +1627,13 @@ ProjectionResult solve(Variables &vs, Constraints &cs, Rectangles &rs, unsigned 
                 sprintf(buf, "v_%d\n", c->right->id);
                 unsatinfo += buf;
                 if ((unsigned) c->left->id < rs.size()) {
-                    Rectangle *r = rs[c->left->id];
+                    vpsc::Rectangle *r = rs[c->left->id];
                     sprintf(buf, "    v_%d rect: [%f, %f] x [%f, %f]\n", c->left->id,
                             r->getMinX(), r->getMaxX(), r->getMinY(), r->getMaxY());
                     unsatinfo += buf;
                 }
                 if ((unsigned) c->right->id < rs.size()) {
-                    Rectangle *r = rs[c->right->id];
+                    vpsc::Rectangle *r = rs[c->right->id];
                     sprintf(buf, "    v_%d rect: [%f, %f] x [%f, %f]\n", c->right->id,
                             r->getMinX(), r->getMaxX(), r->getMinY(), r->getMaxY());
                     unsatinfo += buf;
@@ -1658,13 +1657,13 @@ ProjectionResult solve(Variables &vs, Constraints &cs, Rectangles &rs, unsigned 
                     sprintf(buf, "v_%d\n", c->right->id);
                     unsatinfo += buf;
                     if ((unsigned) c->left->id < rs.size()) {
-                        Rectangle *r = rs[c->left->id];
+                        vpsc::Rectangle *r = rs[c->left->id];
                         sprintf(buf, "    v_%d rect: [%f, %f] x [%f, %f]\n", c->left->id,
                                 r->getMinX(), r->getMaxX(), r->getMinY(), r->getMaxY());
                         unsatinfo += buf;
                     }
                     if ((unsigned) c->right->id < rs.size()) {
-                        Rectangle *r = rs[c->right->id];
+                        vpsc::Rectangle *r = rs[c->right->id];
                         sprintf(buf, "    v_%d rect: [%f, %f] x [%f, %f]\n", c->right->id,
                                 r->getMinX(), r->getMaxX(), r->getMinY(), r->getMaxY());
                         unsatinfo += buf;

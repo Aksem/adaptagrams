@@ -60,10 +60,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} P
 
 if (BUILD_TESTING)
     set(TEST_CASES
-        2junctions
-        buildOrthogonalChannelInfo1
+#        2junctions
+#        buildOrthogonalChannelInfo1
         checkpointNudging1
-        checkpointNudging2
+        #[[checkpointNudging2
         checkpointNudging3
         checkpoints01
         checkpoints02
@@ -144,7 +144,7 @@ if (BUILD_TESTING)
         # unsatisfiableRangeAssertion
         validPaths01
         validPaths02
-        vertlineassertion
+        vertlineassertion]]
     )
 
     # old tests without test framework

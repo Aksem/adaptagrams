@@ -3,7 +3,10 @@ project(adaptagrams)
 
 # adaptagrams libs and GoogleTest require at least C++11
 set(CMAKE_CXX_STANDARD 11)
-set(CMAKE_MFC_FLAG 2)
+# msvc requires AFXDLL definition to be able to use afx.h
+# _USE_MATH_DEFINES is required for msvc to make M_PI and other constants available
+add_definitions(-D_AFXDLL -DLIBAVOID_EXPORTS -D_USE_MATH_DEFINES)
+set(CMAKE_MFC_FLAG 1)
 set(VERSION 1.0.0)
 set(SOVERSION 1)
 
