@@ -1568,14 +1568,8 @@ static void processEventHori(Router *router, NodeSet& scanline,
         if (it != scanline.begin())
         {
             Node *u = *(--it);
-            // if `v` is an obstacle and node `u` is around `v`, then it's visual parent, not neighbour, ignore it
-            if (!(v->v && v->min[0] >= u->min[0] && v->min[1] >= u->min[1] && v->max[0] <= u->max[0] && v->max[1] <= u->max[1])) {
-                v->firstAbove = u;
-                u->firstBelow = v;
-            } else {
-                v->firstAbove = nullptr;
-                u->firstBelow = nullptr;
-            }
+            v->firstAbove = u;
+            u->firstBelow = v;
         }
         it = v->iter;
         if (++it != scanline.end())
@@ -1599,6 +1593,8 @@ static void processEventHori(Router *router, NodeSet& scanline,
             double maxShape = v->max[YDIM];
             // As far as we can see.
             double minLimit, maxLimit;
+            // minLimitMax - minimal Y value below the shape, if shape has no neighbours below, it's Y value of line below the bottom side of this shape
+            // maxLimitMin - maximal Y value above the shape
             double minLimitMax, maxLimitMin;
 
             v->findFirstPointAboveAndBelow(YDIM, lineX, minLimit, maxLimit,
@@ -1818,8 +1814,8 @@ extern void generateStaticOrthogonalVisGraph(Router *router)
     fixConnectionPointVisibilityOnOutsideOfVisibilityGraph(events, totalEvents,
             (ConnDirLeft | ConnDirRight));
 
-    // Process the vertical sweep -- creating cadidate horizontal edges.
-    // We do multiple passes over sections of the list so we can add relevant
+    // Process the vertical sweep -- creating candidate horizontal edges.
+    // We do multiple passes over sections of the list, so we can add relevant
     // entries to the scanline that might follow, before processing them.
     SegmentListWrapper segments;
     NodeSet scanline;

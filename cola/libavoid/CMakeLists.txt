@@ -32,7 +32,9 @@ add_library(${PROJECT_NAME}
     viscluster.cpp
     visibility.cpp
     vpsc.cpp
+    uniqueid.cpp
 )
+set_target_properties(${PROJECT_NAME} PROPERTIES VERSION ${VERSION} SOVERSION ${SOVERSION})
 
 if (LIBAVOID_DEBUG)
     add_definitions(-DLIBAVOID_DEBUG)
@@ -56,7 +58,7 @@ endif()
 
 target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/../)
 
-if (ENABLE_TESTS)
+if (BUILD_TESTING)
     set(TEST_CASES
         2junctions
         buildOrthogonalChannelInfo1
@@ -167,25 +169,18 @@ if (ENABLE_TESTS)
         connectorChanges
         moveShapeConnectionPins
         mixedConnTypes
+        orthogonal/hierarchical
     )
     foreach(TEST_CASE IN LISTS NEW_TEST_CASES)
         set(TARGET_NAME "")
         string(REPLACE "/" "_" TARGET_NAME ${TEST_CASE})
         set(FULL_TARGET_NAME ${PROJECT_NAME}_${TARGET_NAME}_test)
-        add_executable(
-                ${FULL_TARGET_NAME}
-                tests/new/${TEST_CASE}.cpp
-        )
-        target_link_libraries(
-                ${FULL_TARGET_NAME}
-                gtest_main
-                gmock_main
-                testHelpers
-                ${PROJECT_NAME}
-        )
-        # 'output' is added to IMAGE_OUTPUT_PATH inside of tests to keep compatibility with Makefile build
-        target_compile_definitions(${FULL_TARGET_NAME} PRIVATE -DIMAGE_OUTPUT_PATH=\"${CMAKE_CURRENT_SOURCE_DIR}/tests/\" -DTEST_DATA_PATH=\"${CMAKE_CURRENT_SOURCE_DIR}/tests/\")
 
-        gtest_discover_tests(${FULL_TARGET_NAME})
+        package_add_test(${FULL_TARGET_NAME}
+                        SOURCE tests/new/${TEST_CASE}.cpp
+                        LIBRARIES testHelpers ${PROJECT_NAME}
+                        # 'output' is added to IMAGE_OUTPUT_PATH inside of tests to keep compatibility with Makefile build
+                        DEFINITIONS -DIMAGE_OUTPUT_PATH=\"${CMAKE_CURRENT_SOURCE_DIR}/tests/\" -DTEST_DATA_PATH=\"${CMAKE_CURRENT_SOURCE_DIR}/tests/\"
+        )
     endforeach()
 endif()

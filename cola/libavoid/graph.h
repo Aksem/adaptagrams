@@ -77,6 +77,7 @@ class EdgeInf
         void setHyperedgeSegment(const bool hyperedge);
         double mtstDist(void) const;
         void setMtstDist(const double joinCost);
+        unsigned int uniqueId(void) const;
 
         EdgeInf *lstPrev;
         EdgeInf *lstNext;
@@ -103,6 +104,7 @@ class EdgeInf
         FlagList  m_conns;
         double  m_dist;
         double  m_mtst_dist;
+        unsigned int m_unique_id;
 };
 
 

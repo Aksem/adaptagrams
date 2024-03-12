@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns="http://www.w3.org/2000/svg" width="100%" height="100%" viewBox="-112 -412 1024 1324">
+<g inkscape:groupmode="layer" inkscape:label="ShapesRect">
+<rect id="rect-3" x="650" y="500" width="200" height="200" style="stroke-width: 1px; stroke: black; fill: grey; stroke-opacity: 0.5; fill-opacity: 0.4;" />
+<rect id="rect-2" x="650" y="200" width="200" height="200" style="stroke-width: 1px; stroke: black; fill: grey; stroke-opacity: 0.5; fill-opacity: 0.4;" />
+<rect id="rect-1" x="-100" y="-400" width="1000" height="1300" style="stroke-width: 1px; stroke: black; fill: grey; stroke-opacity: 0.5; fill-opacity: 0.4;" />
+</g>
+<g inkscape:groupmode="layer" inkscape:label="DisplayConnectors">
+<path id="disp-7" d="M 650 256 L 642 256 L 642 650 L 650 650 " style="fill: none; stroke: black; stroke-width: 1px;" />
+<path id="disp-6" d="M 850 214 L 858 214 L 858 650 L 850 650 " style="fill: none; stroke: black; stroke-width: 1px;" />
+<path id="disp-5" d="M 650 556 L 646 556 L 646 350 L 650 350 " style="fill: none; stroke: black; stroke-width: 1px;" />
+<path id="disp-4" d="M 850 514 L 854 514 L 854 350 L 850 350 " style="fill: none; stroke: black; stroke-width: 1px;" />
+</g>
+</svg>

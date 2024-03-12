@@ -33,6 +33,7 @@
 #include "libavoid/router.h"
 #include "libavoid/assertions.h"
 #include "libavoid/connend.h"
+#include "uniqueid.h"
 
 using std::ostream;
 
@@ -169,7 +170,8 @@ VertInf::VertInf(Router *router, const VertID& vid, const Point& vpoint,
       m_orthogonalPartner(nullptr),
       m_treeRoot(nullptr),
       visDirections(ConnDirNone),
-      orthogVisPropFlags(0)
+      orthogVisPropFlags(0),
+      uniqueId(getNewUniqueId())
 {
     point.id = vid.objID;
     point.vn = vid.vn;

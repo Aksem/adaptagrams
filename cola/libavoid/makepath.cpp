@@ -891,7 +891,7 @@ class CmpVisEdgeRotation
             {
                 return u->rotationLessThan(_lastPt, v);
             }
-            return u < v;
+            return u->uniqueId() < v->uniqueId();
         }
     private:
         const VertInf *_lastPt;

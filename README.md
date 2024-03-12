@@ -82,6 +82,8 @@ repository as platform-agnostic as possible.
 
 Use common `cmake`, `make` and `make install`. Default options have values to build library as in release mode. Tests, debug logs and more can be enabled with apropriate options, see `CMakeLists.txt` of the library you want to build.
 
+To enable tests use cmake builtin option `BUILD_TESTING` (`-DBUILD_TESTING=ON` in cmake command).
+
 ### GNU automake
 
 You'll need to call `aclocal`,

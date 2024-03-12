@@ -91,6 +91,7 @@ class Obstacle
         //! @brief   Returns the position of this obstacle.
         //! @returns A point representing the position of this obstacle.
         virtual Point position(void) const = 0;
+        unsigned int uniqueId(void) const;
         
         void setNewPoly(const Polygon& poly);
         VertInf *firstVert(void);
@@ -132,6 +133,7 @@ class Obstacle
     protected:
         Router *m_router;
         unsigned int m_id;
+        const unsigned int m_unique_id;
         Polygon m_polygon;
         bool m_active;
         ObstacleList::iterator m_router_obstacles_pos;

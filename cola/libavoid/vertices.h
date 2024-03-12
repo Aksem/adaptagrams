@@ -153,6 +153,7 @@ class VertInf
         EdgeInfList invisList;
         unsigned int invisListSize;
         VertInf *pathNext;
+        const unsigned int uniqueId;
 
         // The tree root and distance value used when computing MTSTs.
         // XXX: Maybe these should be allocated as a separate struct

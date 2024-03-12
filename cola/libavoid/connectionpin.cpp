@@ -31,6 +31,7 @@
 #include "libavoid/router.h"
 #include "libavoid/visibility.h"
 #include "libavoid/debug.h"
+#include "uniqueid.h"
 
 
 namespace Avoid {
@@ -49,7 +50,8 @@ ShapeConnectionPin::ShapeConnectionPin(ShapeRef *shape,
       m_exclusive(true),
       m_connection_cost(0.0),
       m_vertex(nullptr),
-      m_using_proportional_offsets(proportional)
+      m_using_proportional_offsets(proportional),
+      m_unique_id(getNewUniqueId())
 {
     commonInitForShapeConnection();
 }
@@ -68,7 +70,8 @@ ShapeConnectionPin::ShapeConnectionPin(ShapeRef *shape,
       m_exclusive(true),
       m_connection_cost(0.0),
       m_vertex(nullptr),
-      m_using_proportional_offsets(true)
+      m_using_proportional_offsets(true),
+      m_unique_id(getNewUniqueId())
 {
     commonInitForShapeConnection();
 }
@@ -232,6 +235,10 @@ void ShapeConnectionPin::setExclusive(const bool exclusive)
 bool ShapeConnectionPin::isExclusive(void) const
 {
     return m_exclusive;
+}
+
+unsigned int ShapeConnectionPin::uniqueId(void) const {
+    return m_unique_id;
 }
 
 void ShapeConnectionPin::updatePosition(const Point& newPosition)

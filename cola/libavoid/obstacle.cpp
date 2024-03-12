@@ -27,6 +27,7 @@
 #include "libavoid/router.h"
 #include "libavoid/connectionpin.h"
 #include "libavoid/debug.h"
+#include "uniqueid.h"
 
 namespace Avoid {
 
@@ -36,7 +37,8 @@ Obstacle::Obstacle(Router *router, Polygon ply, const unsigned int id)
       m_polygon(ply),
       m_active(false),
       m_first_vert(nullptr),
-      m_last_vert(nullptr)
+      m_last_vert(nullptr),
+      m_unique_id(getNewUniqueId())
 {
     COLA_ASSERT(m_router != nullptr);
     m_id = m_router->assignId(id);
@@ -348,6 +350,11 @@ ConnRefList Obstacle::attachedConnectors(void) const
         attachedConns.push_back(connEnd->m_conn_ref);
     }
     return attachedConns;
+}
+
+unsigned int Obstacle::uniqueId(void) const
+{
+    return m_unique_id;
 }
 
 }

@@ -27,6 +27,7 @@ libavoid_la_SOURCES = connectionpin.cpp \
 			hyperedgetree.cpp \
 			scanline.cpp \
 			actioninfo.cpp \
+			uniqueid.cpp \
 			assertions.h \
 			connector.h \
 			connectionpin.h \
@@ -52,7 +53,8 @@ libavoid_la_SOURCES = connectionpin.cpp \
 			scanline.h \
 			actioninfo.h \
 			vpsc.h \
-			debughandler.h
+			debughandler.h \
+			uniqueid.h
 
 libavoidincludedir = $(includedir)/libavoid
 libavoidinclude_HEADERS = assertions.h \

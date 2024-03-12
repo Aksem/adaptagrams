@@ -421,6 +421,7 @@ class AVOID_EXPORT Router {
         bool SelectiveReroute;
         
         bool PartialFeedback;
+        // rubber band routing works currently only in polyline mode
         bool RubberBandRouting;
         
 

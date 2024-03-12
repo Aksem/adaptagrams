@@ -33,6 +33,7 @@
 #include "libavoid/vertices.h"
 #include "libavoid/router.h"
 #include "libavoid/assertions.h"
+#include "uniqueid.h"
 
 
 using std::pair;
@@ -52,7 +53,8 @@ EdgeInf::EdgeInf(VertInf *v1, VertInf *v2, const bool orthogonal)
       m_disabled(false),
       m_vert1(v1),
       m_vert2(v2),
-      m_dist(-1)
+      m_dist(-1),
+      m_unique_id(getNewUniqueId())
 {
     // Not passed nullptr values.
     COLA_ASSERT(v1 && v2);
@@ -663,6 +665,11 @@ EdgeInf *EdgeInf::existingEdge(VertInf *i, VertInf *j)
     }
 
     return nullptr;
+}
+
+unsigned int EdgeInf::uniqueId(void) const
+{
+    return m_unique_id;
 }
 
 

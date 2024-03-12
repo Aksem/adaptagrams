@@ -40,13 +40,9 @@ bool CmpNodePos::operator() (const Node* u, const Node* v) const
     {
         return u->pos < v->pos;
     }
-    
-    // Use the pointers to the base objects to differentiate them.
-    void *up = (u->v) ? (void *) u->v : 
-            ((u->c) ? (void *) u->c : (void *) u->ss);
-    void *vp = (v->v) ? (void *) v->v : 
-            ((v->c) ? (void *) v->c : (void *) v->ss);
-    return up < vp;
+
+    // use unique ids of base objects to differentiate nodes
+    return u->uniqueId() < v->uniqueId();
 }
 
 
@@ -169,7 +165,7 @@ void Node::findFirstPointAboveAndBelow(const size_t dim, const double linePos,
     firstAbovePos = -DBL_MAX;
     firstBelowPos = DBL_MAX;
     // We start looking left from the right side of the shape, 
-    // and vice versa. 
+    // and vice versa.
     lastAbovePos = max[dim];
     lastBelowPos = min[dim];
 
@@ -205,15 +201,23 @@ void Node::findFirstPointAboveAndBelow(const size_t dim, const double linePos,
             }
             else if (!eventsAtSamePos)
             {
-                // Shapes that open or close at the same position do not
-                // block visibility, so if they are not at same position
-                // determine where they overlap.
-                lastAbovePos = std::min(curr->min[dim], lastAbovePos);
-                lastBelowPos = std::max(curr->max[dim], lastBelowPos);
+                if (isShapeInShape(curr)) {
+                    // if `curr` is visual parent of current node,
+                    // lastAbove can be only bottom side and lastBelow
+                    // top side
+                    lastAbovePos = std::max(curr->max[dim], lastAbovePos);
+                    lastBelowPos = std::min(curr->min[dim], lastBelowPos);
+                } else {
+                    // Shapes that open or close at the same position do not
+                    // block visibility, so if they are not at same position
+                    // determine where they overlap.
+                    lastAbovePos = std::min(curr->min[dim], lastAbovePos);
+                    lastBelowPos = std::max(curr->max[dim], lastBelowPos);
+                }
             }
             curr = (direction == 0) ? curr->firstAbove : curr->firstBelow;
         }
-    }    
+    }
 }
 
 double Node::firstPointAbove(size_t dim) 
@@ -281,6 +285,20 @@ bool Node::isInsideShape(size_t dimension)
     return false;
 }
 
+bool Node::isShapeInShape(Node *another)
+{
+    // returns true if current node and another node are nodes representing
+    // shapes and another shape is visual parent of current shape
+    return (another && v && another->v && min[0] >= another->min[0]
+            && min[1] >= another->min[1] && max[0] <= another->max[0]
+            && max[1] <= another->max[1]);
+}
+
+unsigned int Node::uniqueId(void) const
+{
+    return v ? v->uniqueId() : (c ? c->uniqueId : ss->uniqueId);
+}
+
 
 Event::Event(EventType t, Node *v, double p) 
     : type(t),
@@ -304,7 +322,7 @@ int compare_events(const void *a, const void *b)
         return ea->type - eb->type;
     }
     COLA_ASSERT(ea->v != eb->v);
-    return (int)(ea->v - eb->v);
+    return (ea->v->uniqueId() - eb->v->uniqueId());
 }
 
 
