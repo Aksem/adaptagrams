@@ -1,8 +1,8 @@
 cmake_minimum_required(VERSION 3.16)
 project(adaptagrams)
 
-# adaptagrams libs and GoogleTest require at least C++11
-set(CMAKE_CXX_STANDARD 11)
+# adaptagrams libs require at least C++11, but GoogleTest at least C++14
+set(CMAKE_CXX_STANDARD 14)
 # msvc requires AFXDLL definition to be able to use afx.h
 # _USE_MATH_DEFINES is required for msvc to make M_PI and other constants available
 add_definitions(-D_AFXDLL -DLIBAVOID_EXPORTS -D_USE_MATH_DEFINES)
@@ -22,7 +22,7 @@ if (BUILD_TESTING AND PROJECT_NAME STREQUAL CMAKE_PROJECT_NAME)
     cmake_policy(SET CMP0135 NEW)
     FetchContent_Declare(
             googletest
-            URL https://github.com/google/googletest/archive/af29db7ec28d6df1c7f0f745186884091e602e07.zip
+            URL https://github.com/google/googletest/archive/b479e7a3c161d7087113a05f8cb034b870313a55.zip
     )
     # For Windows: Prevent overriding the parent project's compiler/linker settings
     set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
