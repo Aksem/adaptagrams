@@ -39,6 +39,8 @@
     // Prevent inclusion of min and max macros.
     #define NOMINMAX
 
+    // sdkddkver system header sets WINVER and _WIN32_WINNT
+    #include <sdkddkver.h>
     #include <afx.h>
     #define COLA_ASSERT(expr) ASSERT(expr)
 

@@ -33,6 +33,8 @@ enum class AspectRatioClass {
     NONE, PORTRAIT, LANDSCAPE
 };
 
+// afxv_w32.h on Windows/MSVC contains STRICT define, undef it to avoid name conflict
+#undef STRICT
 //! When routing connectors for Trees, the set of allowed connection directions
 //! depends on the application.
 //!

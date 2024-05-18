@@ -65,7 +65,6 @@ using vpsc::HORIZONTAL;
 using vpsc::VERTICAL;
 using vpsc::Constraint;
 using vpsc::Constraints;
-using vpsc::Rectangle;
 using vpsc::Rectangles;
 using vpsc::Variable;
 using vpsc::Variables;
@@ -961,7 +960,7 @@ void ACALayout::dropState(void)
 void ACALayout::pushRectCoords(void)
 {
     for (int i = 0; i < m_n; ++i) {
-        Rectangle *R = m_rs[i];
+        vpsc::Rectangle *R = m_rs[i];
         m_rectXStack.push_back(R->getCentreX());
         m_rectYStack.push_back(R->getCentreY());
     }
@@ -974,7 +973,7 @@ void ACALayout::popRectCoords(void)
     for (int i = 0; i < m_n; ++i) {
         double x = m_rectXStack.back(); m_rectXStack.pop_back();
         double y = m_rectYStack.back(); m_rectYStack.pop_back();
-        Rectangle *R = m_rs[m_n-1-i];
+        vpsc::Rectangle *R = m_rs[m_n-1-i];
         R->moveCentreX(x);
         R->moveCentreY(y);
     }
@@ -1054,7 +1053,7 @@ vpsc::Rectangle *ACALayout::makeRectForEdge(int j, vpsc::Dim dim)
     return R;
 }
 
-void ACALayout::updateRectForEdge(Rectangle *R, int j, Dim dim)
+void ACALayout::updateRectForEdge(vpsc::Rectangle *R, int j, Dim dim)
 {
     // Here dim should be HORIZONTAL when edge j has been horizontally
     // aligned and R is supposed to be a wide box with a narrow height.
@@ -1112,7 +1111,7 @@ void ACALayout::recomputeEdgeShapes(Dim dim)
     cola::NonOverlapConstraints *nocs = horiz ? m_ynocs : m_xnocs;
     for (int gi = b; gi < N; ++gi) {
         int ei = gi2ei[gi];
-        Rectangle *R = rs[gi];
+        vpsc::Rectangle *R = rs[gi];
         Dim perpDim = dim == YDIM ? XDIM : YDIM;
         updateRectForEdge(R,ei,perpDim);
         nocs->resizeShape(gi,R->width()/2.0,R->height()/2.0);
@@ -1130,7 +1129,7 @@ void ACALayout::updateNodeRectsFromVars(void)
 void ACALayout::updateVarsFromNodeRects(void)
 {
     for (int i=0; i<m_n; ++i) {
-        Rectangle *r = m_rs[i];
+        vpsc::Rectangle *r = m_rs[i];
         double x=r->getCentreX(), y=r->getCentreY();
         m_xvs[i]->desiredPosition=x;
         m_yvs[i]->desiredPosition=y;
@@ -1376,7 +1375,7 @@ bool ACALayout::applyIfFeasible(OrderedAlignment *oa)
     oa->alignment->generateVariables(alnd,alnv);
     oa->alignment->generateSeparationConstraints(alnd,alnv,alnc,alnr);
     // New rectangle for aligned edge:
-    Rectangle *newRect = makeRectForOA(oa);
+    vpsc::Rectangle *newRect = makeRectForOA(oa);
     alnr.push_back(newRect);
     int newRectIndex = alnv.size()-1;
     gi2ei.insert(std::pair<int,int>(newRectIndex,oa->edgeIndex));

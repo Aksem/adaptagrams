@@ -749,13 +749,15 @@ void Tree::addConstraints(Graph &G, bool alignRoot) {
     // Prepare functions and constants based on our growth direction.
     bool isVertical = Compass::isVerticalCard(m_growthDir);
     // Function to compare Nodes by their transverse coordinate:
+    // plus before lambda is required to convert lambda to function pointer, only then it is compilable with MSVC
     std::function<bool(Node_SP, Node_SP)> transCoordCmp = isVertical ?
-                [](const Node_SP &a, const Node_SP &b)->bool{ return a->getCentre().x < b->getCentre().x; } :
-                [](const Node_SP &a, const Node_SP &b)->bool{ return a->getCentre().y < b->getCentre().y; } ;
+                +[](const Node_SP &a, const Node_SP &b)->bool{ return a->getCentre().x < b->getCentre().x; } :
+                +[](const Node_SP &a, const Node_SP &b)->bool{ return a->getCentre().y < b->getCentre().y; } ;
     // Funciton to compare Nodes by their axial dimension:
+    // plus before lambda is required to convert lambda to function pointer, only then it is compilable with MSVC
     std::function<bool(Node_SP, Node_SP)> axialMeasureCmp = isVertical ?
-                [](const Node_SP &a, const Node_SP &b)->bool{ return a->getDimensions().second < b->getDimensions().second; } :
-                [](const Node_SP &a, const Node_SP &b)->bool{ return a->getDimensions().first < b->getDimensions().first; } ;
+                +[](const Node_SP &a, const Node_SP &b)->bool{ return a->getDimensions().second < b->getDimensions().second; } :
+                +[](const Node_SP &a, const Node_SP &b)->bool{ return a->getDimensions().first < b->getDimensions().first; } ;
     // The direction in which to separate Nodes belonging to a common rank:
     CardinalDir intraRankSepDir = isVertical ? CardinalDir::EAST : CardinalDir::SOUTH;
     // The direction in which to separate Nodes belonging to neighbouring ranks:
@@ -861,9 +863,10 @@ void Tree::addBufferNodesAndConstraints(Graph &G, NodesById &bufferNodes) {
     // Pads on outsides of ranks:
     bool isVertical = Compass::isVerticalCard(m_growthDir);
     // Function to compare Nodes by their transverse coordinate:
+    // plus before lambda is required to convert lambda to function pointer, only then it is compilable with MSVC
     std::function<bool(Node_SP, Node_SP)> transCoordCmp = isVertical ?
-                [](const Node_SP &a, const Node_SP &b)->bool{ return a->getCentre().x < b->getCentre().x; } :
-                [](const Node_SP &a, const Node_SP &b)->bool{ return a->getCentre().y < b->getCentre().y; } ;
+                +[](const Node_SP &a, const Node_SP &b)->bool{ return a->getCentre().x < b->getCentre().x; } :
+                +[](const Node_SP &a, const Node_SP &b)->bool{ return a->getCentre().y < b->getCentre().y; } ;
     for (auto it = std::next(m_nodesByRank.begin()); it != m_nodesByRank.end(); ++it) {
         Nodes rank = *it;
         std::sort(rank.begin(), rank.end(), transCoordCmp);

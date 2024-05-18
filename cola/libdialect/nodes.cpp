@@ -37,7 +37,6 @@ using std::string;
 
 using namespace dialect;
 
-using Avoid::Polygon;
 using Avoid::Point;
 
 Node_SP Node::allocate(void) {
@@ -227,8 +226,8 @@ string Node::writeSvg(bool useExternalId) const {
     return ss.str();
 }
 
-Polygon Node::makeLibavoidPolygon(void) const {
-    Polygon poly(4);
+Avoid::Polygon Node::makeLibavoidPolygon(void) const {
+    Avoid::Polygon poly(4);
     BoundingBox b = getBoundingBox();
     poly.setPoint(0, Point(b.x, b.y));
     poly.setPoint(1, Point(b.X, b.y));
