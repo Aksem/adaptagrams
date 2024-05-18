@@ -8,6 +8,14 @@ option(NUDGE_DEBUG "Debug nudging" OFF)
 option(ESTIMATED_COST_DEBUG "Debug estimated cost" OFF)
 option(ASTAR_DEBUG "Debug ASTAR" OFF)
 
+# this part of config is duplicated in both cola cmake and libavoid cmake for case
+# if avoid project is used directly, not as part of cola project
+#
+# msvc requires AFXDLL definition to be able to use afx.h
+# _USE_MATH_DEFINES is required for msvc to make M_PI and other constants available
+add_definitions(-D_AFXDLL -DLIBAVOID_EXPORTS -D_USE_MATH_DEFINES)
+set(CMAKE_MFC_FLAG 1)
+
 add_library(${PROJECT_NAME}
     actioninfo.cpp
     connectionpin.cpp
