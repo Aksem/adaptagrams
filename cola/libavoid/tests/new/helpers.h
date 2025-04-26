@@ -6,8 +6,6 @@
 #include "libavoid/libavoid.h"
 
 
-using namespace Avoid;
-
 bool compare_float(double x, double y, double epsilon = 0.001f) {
     if (fabs(x - y) < epsilon)
         return true;
@@ -15,7 +13,7 @@ bool compare_float(double x, double y, double epsilon = 0.001f) {
 }
 
 MATCHER_P(IsEqualToRoute, value, "equal routes") {
-    std::vector<Point> actualRoute = arg->displayRoute().ps;
+    std::vector<Avoid::Point> actualRoute = arg->displayRoute().ps;
     if (actualRoute.size() != value.size()) {
         *result_listener << "Length of routes is not equal " << actualRoute.size() << " != " << value.size() << " (expected)";
         return false;

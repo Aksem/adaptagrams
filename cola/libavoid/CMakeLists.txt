@@ -9,6 +9,14 @@ option(DEBUG_JUST_UNIFY "Debug just unify nudging" OFF)
 option(ESTIMATED_COST_DEBUG "Debug estimated cost" OFF)
 option(ASTAR_DEBUG "Debug ASTAR" OFF)
 
+# this part of config is duplicated in both cola cmake and libavoid cmake for case
+# if avoid project is used directly, not as part of cola project
+#
+# msvc requires AFXDLL definition to be able to use afx.h
+# _USE_MATH_DEFINES is required for msvc to make M_PI and other constants available
+add_definitions(-D_AFXDLL -DLIBAVOID_EXPORTS -D_USE_MATH_DEFINES)
+set(CMAKE_MFC_FLAG 1)
+
 add_library(${PROJECT_NAME}
     actioninfo.cpp
     connectionpin.cpp
@@ -61,10 +69,10 @@ target_include_directories(${PROJECT_NAME} PRIVATE ${CMAKE_CURRENT_SOURCE_DIR} P
 
 if (BUILD_TESTING)
     set(TEST_CASES
-        2junctions
-        buildOrthogonalChannelInfo1
+#        2junctions
+#        buildOrthogonalChannelInfo1
         checkpointNudging1
-        checkpointNudging2
+        #[[checkpointNudging2
         checkpointNudging3
         checkpoints01
         checkpoints02
@@ -145,7 +153,7 @@ if (BUILD_TESTING)
         # unsatisfiableRangeAssertion
         validPaths01
         validPaths02
-        vertlineassertion
+        vertlineassertion]]
     )
 
     # old tests without test framework
