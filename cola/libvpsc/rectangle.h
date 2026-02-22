@@ -91,7 +91,12 @@ public:
             bool allowOverlap = false);
     Rectangle(const Rectangle &Other) = default;
     Rectangle();
+// To prevent C++ objects from being destroyed in garbage collected languages
+// when the libraries are called from SWIG, we hide the declarations of the
+// destructors and prevent generation of default destructors.
+#ifndef SWIG
     ~Rectangle() {}
+#endif
 
     bool isValid(void) const;
     Rectangle unionWith(const Rectangle& rhs) const;
