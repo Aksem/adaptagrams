@@ -2881,8 +2881,6 @@ void ImproveOrthogonalRoutes::nudgeOrthogonalRoutes(size_t dimension,
             IncSolver f(vs, cs);
             f.solve();
 
-            // Determine if the problem was satisfied.
-            satisfied = true;
             for (size_t i = 0; i < vs.size(); ++i)
             {
                 // For each variable...
@@ -2892,10 +2890,6 @@ void ImproveOrthogonalRoutes::nudgeOrthogonalRoutes(size_t dimension,
                     if (fabs(vs[i]->finalPosition -
                             vs[i]->desiredPosition) > 0.0001)
                     {
-                        // and it is not at it's desired position, then
-                        // we consider the problem to be unsatisfied.
-                        satisfied = false;
-
                         // We record ranges of unsatisfied variables based on
                         // the channel edges.
                         if (vs[i]->id == channelLeftID)
@@ -2965,6 +2959,9 @@ void ImproveOrthogonalRoutes::nudgeOrthogonalRoutes(size_t dimension,
                     }
                 }
             }
+
+            // Determine if the problem was satisfied.
+            satisfied = unsatisfiedRanges.empty();
 
 #ifdef NUDGE_DEBUG
             if (!satisfied)
@@ -3042,7 +3039,6 @@ void ImproveOrthogonalRoutes::nudgeOrthogonalRoutes(size_t dimension,
             {
                 if (!satisfied)
                 {
-                    COLA_ASSERT(unsatisfiedRanges.size() > 0);
                     // Reduce the separation distance.
                     sepDist -= (baseSepDist / reductionSteps);
 #ifndef NDEBUG
