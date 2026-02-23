@@ -426,6 +426,23 @@ class AVOID_EXPORT ConnRef
         //!
         bool hasValidRoute(void) const;
 
+        //! @brief  Returns whether the connector's route crosses any
+        //!         obstacles that the connector is not attached to.
+        //!
+        //! After routing, the computed path may pass through obstacle
+        //! boundaries (e.g., when a connector endpoint is inside an
+        //! obstacle, or when the orthogonal router routes through
+        //! overlapping shapes).  This method checks all route segments
+        //! against all non-endpoint obstacles in the scene.
+        //!
+        //! @note   The result is only meaningful after a call to
+        //!         Router::processTransaction().
+        //!
+        //! @return True if the route crosses at least one obstacle,
+        //!         false if the route is obstacle-free.
+        //!
+        bool hasCrossingObstacles(void) const;
+
         //! @brief  Returns the connector to being automatically routed if it
         //!         was marked as fixed.
         //!

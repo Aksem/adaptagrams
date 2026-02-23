@@ -37,6 +37,7 @@
 #include "libavoid/visibility.h"
 #include "libavoid/debug.h"
 #include "libavoid/assertions.h"
+#include "libavoid/obstacle.h"
 #include "libavoid/junction.h"
 #include "libavoid/makepath.h"
 #include "libavoid/debughandler.h"
@@ -647,6 +648,53 @@ bool ConnRef::hasValidRoute(void) const
     return m_has_valid_route;
 }
 
+bool ConnRef::hasCrossingObstacles(void) const
+{
+    const PolyLine& output_route = m_route;
+    if (output_route.size() < 2)
+    {
+        return false;
+    }
+
+    std::pair<Obstacle *, Obstacle *> anchors = endpointAnchors();
+    for (ObstacleList::const_iterator obstIt =
+            m_router->m_obstacles.begin();
+            obstIt != m_router->m_obstacles.end(); ++obstIt)
+    {
+        Obstacle *obstacle = *obstIt;
+        if (obstacle == anchors.first || obstacle == anchors.second)
+        {
+            continue;
+        }
+
+        Polygon obsPoly = obstacle->routingPolygon();
+
+        for (size_t i = 0; i < output_route.size() - 1; ++i)
+        {
+            const Point& p1 = output_route.ps[i];
+            const Point& p2 = output_route.ps[i + 1];
+
+            for (size_t j = 0; j < obsPoly.size(); ++j)
+            {
+                size_t nextJ = (j + 1) % obsPoly.size();
+                if (segmentIntersect(p1, p2,
+                        obsPoly.ps[j], obsPoly.ps[nextJ]))
+                {
+                    return true;
+                }
+            }
+
+            // Also check if a route point lies inside the obstacle.
+            if (inPoly(obsPoly, p1, false))
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 void ConnRef::clearFixedRoute(void)
 {
     m_has_fixed_route = false;
@@ -1055,7 +1103,7 @@ bool ConnRef::generatePath(void)
     freeRoutes();
     PolyLine& output_route = m_route;
     output_route.ps = clippedPath;
- 
+
 #ifdef PATHDEBUG
     db_printf("Output route:\n");
     for (size_t i = 0; i < output_route.ps.size(); ++i)
