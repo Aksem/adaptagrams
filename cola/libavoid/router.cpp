@@ -109,6 +109,42 @@ Router::~Router()
 {
     m_currently_calling_destructors = true;
 
+    // Clean up objects from pending actions that were never processed
+    // (i.e., processTransaction() was never called after adding them).
+    // These objects were never made active and would not be reached by
+    // the normal cleanup loops below.
+    // We collect them first and clear the action list before deleting,
+    // since destructors may call removeObjectFromQueuedActions.
+    std::list<Obstacle *> pendingObstacles;
+    std::list<ConnRef *> pendingConns;
+    for (ActionInfoList::iterator it = actionList.begin();
+            it != actionList.end(); ++it)
+    {
+        if (it->type == ShapeAdd || it->type == JunctionAdd)
+        {
+            pendingObstacles.push_back(it->obstacle());
+        }
+        else if (it->type == ConnChange)
+        {
+            ConnRef *connector = it->conn();
+            if (!connector->m_active)
+            {
+                pendingConns.push_back(connector);
+            }
+        }
+    }
+    actionList.clear();
+    for (std::list<ConnRef *>::iterator it = pendingConns.begin();
+            it != pendingConns.end(); ++it)
+    {
+        delete *it;
+    }
+    for (std::list<Obstacle *>::iterator it = pendingObstacles.begin();
+            it != pendingObstacles.end(); ++it)
+    {
+        delete *it;
+    }
+
     // Delete remaining connectors.
     ConnRefList::iterator conn = connRefs.begin();
     while (conn != connRefs.end())

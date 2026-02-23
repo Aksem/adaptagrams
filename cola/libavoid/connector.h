@@ -408,6 +408,41 @@ class AVOID_EXPORT ConnRef
         //!
         bool hasFixedRoute(void) const;
 
+        //! @brief  Returns whether the connector has a valid route.
+        //!
+        //! A route is considered valid when the router was able to find
+        //! a path that avoids obstacles.  When no obstacle-avoiding
+        //! path can be found (e.g., when the source or destination
+        //! lies inside an obstacle, or when obstacles completely block
+        //! all paths), the router falls back to a direct straight-line
+        //! route between the endpoints, and this method will return
+        //! false.
+        //!
+        //! @note   The result is only meaningful after a call to
+        //!         Router::processTransaction().
+        //!
+        //! @return True if an obstacle-avoiding route was found,
+        //!         false if the route is a direct fallback.
+        //!
+        bool hasValidRoute(void) const;
+
+        //! @brief  Returns whether the connector's route crosses any
+        //!         obstacles that the connector is not attached to.
+        //!
+        //! After routing, the computed path may pass through obstacle
+        //! boundaries (e.g., when a connector endpoint is inside an
+        //! obstacle, or when the orthogonal router routes through
+        //! overlapping shapes).  This method checks all route segments
+        //! against all non-endpoint obstacles in the scene.
+        //!
+        //! @note   The result is only meaningful after a call to
+        //!         Router::processTransaction().
+        //!
+        //! @return True if the route crosses at least one obstacle,
+        //!         false if the route is obstacle-free.
+        //!
+        bool hasCrossingObstacles(void) const;
+
         //! @brief  Returns the connector to being automatically routed if it
         //!         was marked as fixed.
         //!
@@ -470,6 +505,7 @@ class AVOID_EXPORT ConnRef
         bool m_initialised:1;
         bool m_hate_crossings:1;
         bool m_has_fixed_route:1;
+        bool m_has_valid_route:1;
         PolyLine m_route;
         Polygon m_display_route;
         double m_route_dist;
