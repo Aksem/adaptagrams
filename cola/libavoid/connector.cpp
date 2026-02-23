@@ -55,6 +55,7 @@ ConnRef::ConnRef(Router *router, const unsigned int id)
       m_active(false),
       m_hate_crossings(false),
       m_has_fixed_route(false),
+      m_has_valid_route(false),
       m_route_dist(0),
       m_src_vert(nullptr),
       m_dst_vert(nullptr),
@@ -85,6 +86,7 @@ ConnRef::ConnRef(Router *router, const ConnEnd& src, const ConnEnd& dst,
       m_active(false),
       m_hate_crossings(false),
       m_has_fixed_route(false),
+      m_has_valid_route(false),
       m_route_dist(0),
       m_src_vert(nullptr),
       m_dst_vert(nullptr),
@@ -640,6 +642,11 @@ bool ConnRef::hasFixedRoute(void) const
     return m_has_fixed_route;
 }
 
+bool ConnRef::hasValidRoute(void) const
+{
+    return m_has_valid_route;
+}
+
 void ConnRef::clearFixedRoute(void)
 {
     m_has_fixed_route = false;
@@ -955,6 +962,7 @@ bool ConnRef::generatePath(void)
 
     m_false_path = false;
     m_needs_reroute_flag = false;
+    m_has_valid_route = true;
 
     m_start_vert = m_src_vert;
 
@@ -1151,6 +1159,7 @@ void ConnRef::generateCheckpointsPath(std::vector<Point>& path,
             // There is no valid path.
             db_printf("Warning: Path not found...\n");
             m_needs_reroute_flag = true;
+            m_has_valid_route = false;
             
             path.push_back(dst()->point);
             vertices.push_back(dst());
@@ -1282,6 +1291,7 @@ void ConnRef::generateStandardPath(std::vector<Point>& path,
         // There is no valid path.
         db_printf("Warning: Path not found...\n");
         m_needs_reroute_flag = true;
+        m_has_valid_route = false;
         pathlen = 2;
         tar->pathNext = m_src_vert;
         if ((m_type == ConnType_PolyLine) && m_router->InvisibilityGrph)
