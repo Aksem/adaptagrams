@@ -172,6 +172,7 @@ if (BUILD_TESTING)
         mixedConnTypes
         orthogonal/hierarchical
         orthogonal/nudging
+        checkpointReroute
     )
     foreach(TEST_CASE IN LISTS NEW_TEST_CASES)
         set(TARGET_NAME "")

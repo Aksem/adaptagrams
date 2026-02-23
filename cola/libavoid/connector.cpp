@@ -222,6 +222,9 @@ void ConnRef::setRoutingCheckpoints(const std::vector<Checkpoint>& checkpoints)
             vertexVisibility(m_checkpoint_vertices[i], nullptr, true, true);
         }
     }
+
+    makePathInvalid();
+    m_router->modifyConnector(this);
 }
 
 
