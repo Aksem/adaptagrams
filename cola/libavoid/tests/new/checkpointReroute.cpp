@@ -44,6 +44,7 @@ TEST_F(CheckpointRerouteRouter, SetRoutingCheckpointsCausesReroute) {
 
     // Initial route calculation.
     router->processTransaction();
+    router->outputDiagramSVG(IMAGE_OUTPUT_PATH "output/CheckpointReroute_SetRoutingCheckpointsCausesReroute-1");
 
     // Record the route before adding checkpoints.
     Polygon routeBefore = connRef->displayRoute();
@@ -54,6 +55,7 @@ TEST_F(CheckpointRerouteRouter, SetRoutingCheckpointsCausesReroute) {
     connRef->setRoutingCheckpoints(checkpoints);
 
     router->processTransaction();
+    router->outputDiagramSVG(IMAGE_OUTPUT_PATH "output/CheckpointReroute_SetRoutingCheckpointsCausesReroute-2");
 
     // Record the route after adding checkpoints.
     Polygon routeAfter = connRef->displayRoute();
@@ -78,6 +80,7 @@ TEST_F(CheckpointRerouteRouter, UpdatedCheckpointsCauseReroute) {
     checkpoints1.push_back(Checkpoint(Point(300, 300)));
     connRef->setRoutingCheckpoints(checkpoints1);
     router->processTransaction();
+    router->outputDiagramSVG(IMAGE_OUTPUT_PATH "output/CheckpointReroute_UpdatedCheckpointsCauseReroute-1");
 
     Polygon routeWithCheckpoint1 = connRef->displayRoute();
 
@@ -86,6 +89,7 @@ TEST_F(CheckpointRerouteRouter, UpdatedCheckpointsCauseReroute) {
     checkpoints2.push_back(Checkpoint(Point(300, 50)));
     connRef->setRoutingCheckpoints(checkpoints2);
     router->processTransaction();
+    router->outputDiagramSVG(IMAGE_OUTPUT_PATH "output/CheckpointReroute_UpdatedCheckpointsCauseReroute-2");
 
     Polygon routeWithCheckpoint2 = connRef->displayRoute();
 
