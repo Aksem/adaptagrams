@@ -22,13 +22,23 @@
  * Author(s):  Vladyslav Hnatiuk
 */
 
+#include <atomic>
+
 #include "uniqueid.h"
 
+// Shared by every Router in the process, so it must be safe to call from
+// several threads at once: a racing plain increment could hand two objects the
+// same id, and a shape's pin set (ordered by id) would then silently drop a
+// pin. Ids are only ever compared as creation order between objects of one
+// route, so interleaving with other threads' routes does not matter.
+static std::atomic<unsigned int> counter{0};
+
 unsigned int getNewUniqueId() {
-    if (counter == (std::numeric_limits<unsigned int>::max() - 1)) {
+    unsigned int current = counter.load(std::memory_order_relaxed);
+    unsigned int next;
+    do {
         // avoid overflow
-        counter = 0;
-    }
-    counter += 1;
-    return counter;
+        next = (current == std::numeric_limits<unsigned int>::max() - 1) ? 1 : current + 1;
+    } while (!counter.compare_exchange_weak(current, next, std::memory_order_relaxed));
+    return next;
 }
