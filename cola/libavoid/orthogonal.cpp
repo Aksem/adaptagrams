@@ -639,7 +639,9 @@ struct CmpVertInf
         {
             return u->point.y < v->point.y;
         }
-        return u < v;
+        // Break ties by creation order, not address order, so results do
+        // not depend on heap layout.
+        return u->uniqueId < v->uniqueId;
     }
 };
 

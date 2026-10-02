@@ -91,6 +91,9 @@ struct HyperedgeTreeNode
     bool isConnectorSource;
     bool isPinDummyEndpoint;
     bool visited;
+    // Creation order: CmpNodesInDim's tie-break, in place of the node's
+    // address, so results do not depend on heap layout.
+    unsigned int orderId;
 };
 
 struct HyperedgeTreeEdge

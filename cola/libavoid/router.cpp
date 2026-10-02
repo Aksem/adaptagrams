@@ -1141,8 +1141,19 @@ static double cheapEstimatedCost(ConnRef *lineRef)
     return length - (route.size() + 1);
 }
 
+// Orders connectors by their id rather than their address, so that crossing
+// removal visits them in the same order whatever the heap layout.
+class CmpConnRefPtrById
+{
+    public:
+        bool operator() (const ConnRef *u, const ConnRef *v) const
+        {
+            return u->id() < v->id();
+        }
+};
+
 // A map of connectors to the set of connectors that cross them.
-typedef std::map<ConnRef *, std::set<ConnRef *> > CrossingConnectorsMap;
+typedef std::map<ConnRef *, std::set<ConnRef *, CmpConnRefPtrById>, CmpConnRefPtrById> CrossingConnectorsMap;
 
 // A list of connector crossing maps that don't interact with each other.
 typedef std::list<CrossingConnectorsMap> CrossingConnectorsMapList;
@@ -1333,9 +1344,9 @@ class CrossingConnectorsInfo
 
             // Remove the candidate from the group.  To do this we find the
             // set of all connectors it crosses.
-            std::set<ConnRef *>& connSet = pairsSet[candidateConnector];
+            std::set<ConnRef *, CmpConnRefPtrById>& connSet = pairsSet[candidateConnector];
             // For each of these
-            for (std::set<ConnRef *>::const_iterator it = connSet.begin();
+            for (std::set<ConnRef *, CmpConnRefPtrById>::const_iterator it = connSet.begin();
                     it != connSet.end(); ++it)
             {
                 // we remove the candidate from their crossing lists
