@@ -1,9 +1,10 @@
 cmake_minimum_required(VERSION 3.16)
-project(adaptagrams)
+project(adaptagrams VERSION 1.0.7)
 
 # adaptagrams libs and GoogleTest require at least C++11
 set(CMAKE_CXX_STANDARD 11)
-set(VERSION 1.0.0)
+# single source of truth for the version is project() above
+set(VERSION ${PROJECT_VERSION})
 set(SOVERSION 1)
 
 if (BUILD_TESTING AND PROJECT_NAME STREQUAL CMAKE_PROJECT_NAME)
