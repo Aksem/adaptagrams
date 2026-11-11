@@ -75,7 +75,8 @@ Graph_SP dialect::buildGraphFromTglf(istream &in) {
         // Check for "#" lines.
         if (line == "#") {
             // Time to change state.
-            COLA_ASSERT(++state < 3);
+            ++state;
+            COLA_ASSERT(state < 3);
             // And continue to the next line.
             continue;
         }
@@ -84,7 +85,11 @@ Graph_SP dialect::buildGraphFromTglf(istream &in) {
         switch (state) {
         case 0:
             // NODES
-            COLA_ASSERT(iss >> extId >> cx >> cy >> w >> h);
+            {
+                bool ok = static_cast<bool>(iss >> extId >> cx >> cy >> w >> h);
+                COLA_ASSERT(ok);
+                (void) ok;
+            }
             COLA_ASSERT(w > 0);
             COLA_ASSERT(h > 0);
             node = Node::allocate();
@@ -96,7 +101,11 @@ Graph_SP dialect::buildGraphFromTglf(istream &in) {
             break;
         case 1:
             // LINKS
-            COLA_ASSERT(iss >> i1 >> i2);
+            {
+                bool ok = static_cast<bool>(iss >> i1 >> i2);
+                COLA_ASSERT(ok);
+                (void) ok;
+            }
             edge = Edge::allocate(nodesByExternalId[i1], nodesByExternalId[i2]);
             while (iss >> cx >> cy) {
                 edge->addRoutePoint(cx, cy);
@@ -105,7 +114,11 @@ Graph_SP dialect::buildGraphFromTglf(istream &in) {
             break;
         case 2:
             // SEPCOS
-            COLA_ASSERT(iss >> i1 >> i2 >> gtc >> dir >> rel1 >> rel2 >> gap);
+            {
+                bool ok = static_cast<bool>(iss >> i1 >> i2 >> gtc >> dir >> rel1 >> rel2 >> gap);
+                COLA_ASSERT(ok);
+                (void) ok;
+            }
             id_type j1 = nodesByExternalId[i1]->id(),
                     j2 = nodesByExternalId[i2]->id();
             GapType gt{};
