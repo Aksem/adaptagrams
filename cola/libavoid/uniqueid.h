@@ -27,8 +27,6 @@
 #include <cstdint>
 #include <limits>
 
-static unsigned int counter = 0;
-
 unsigned int getNewUniqueId();
 
 #endif //AVOID_UNIQUEID_H
