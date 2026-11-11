@@ -62,3 +62,15 @@ jobs:
           pushd cola/bindings/webassembly/libavoid-js/
           npm install
           python3.11 ./tools/generate.py
+
+  release-check:
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v3
+      - name: Tag matches CMake version and CHANGELOG
+        run: |
+          tag="${GITHUB_REF_NAME#v}"
+          ver=$(sed -nE 's/^project\(adaptagrams VERSION ([0-9.]+)\).*/\1/p' cola/CMakeLists.txt)
+          [ "$tag" = "$ver" ] || { echo "tag $tag != CMake version $ver"; exit 1; }
+          grep -q "^## \[$tag\]" CHANGELOG.md || { echo "CHANGELOG.md has no section for $tag"; exit 1; }
