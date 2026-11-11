@@ -36,6 +36,15 @@
 namespace Avoid {
 
 
+// Creation order for HyperedgeTreeNodes. Like getNewUniqueId(), this only
+// needs to order the nodes of one routing pass relative to each other, so its
+// absolute value is irrelevant.
+static unsigned int nextNodeOrderId()
+{
+    static unsigned int counter = 0;
+    return ++counter;
+}
+
 // Constructs a new hyperedge tree node.
 //
 HyperedgeTreeNode::HyperedgeTreeNode()
@@ -44,7 +53,8 @@ HyperedgeTreeNode::HyperedgeTreeNode()
       finalVertex(nullptr),
       isConnectorSource(false),
       isPinDummyEndpoint(false),
-      visited(false)
+      visited(false),
+      orderId(nextNodeOrderId())
 {
 }
 
@@ -814,7 +824,7 @@ bool CmpNodesInDim::operator()(const HyperedgeTreeNode *lhs,
     {
         return lhs->point[m_dimension] < rhs->point[m_dimension];
     }
-    return lhs < rhs;
+    return lhs->orderId < rhs->orderId;
 }
 
 }

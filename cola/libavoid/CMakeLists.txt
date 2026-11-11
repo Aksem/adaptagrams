@@ -174,6 +174,7 @@ if (BUILD_TESTING)
         orthogonal/nudging
         checkpointReroute
         hasValidRoute
+        determinism
     )
     foreach(TEST_CASE IN LISTS NEW_TEST_CASES)
         set(TARGET_NAME "")
