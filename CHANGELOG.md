@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.0.9] - 2026-11-13
+### Fixed
+- libavoid: the junction constructor of `ShapeConnectionPin` now initialises `m_unique_id`. It was left uninitialised (undefined behaviour), so a junction pin whose garbage id clashed with an existing pin's id was never stored in the pin set and was never deleted by the junction.
+
 ## [1.0.8] - 2026-11-11
 ### Fixed
 - libdialect: the TGLF reader (`buildGraphFromTglf`) no longer does its parsing inside `COLA_ASSERT`. Under `NDEBUG` (Release builds) nothing was parsed, so graphs had no edges or constraints and tests such as `chainconfig01` and `treeboxes01` crashed.

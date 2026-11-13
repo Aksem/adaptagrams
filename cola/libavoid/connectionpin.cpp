@@ -153,7 +153,8 @@ ShapeConnectionPin::ShapeConnectionPin(JunctionRef *junction,
       m_exclusive(true),
       m_connection_cost(0.0),
       m_vertex(nullptr),
-      m_using_proportional_offsets(false)
+      m_using_proportional_offsets(false),
+      m_unique_id(getNewUniqueId())
 {
     COLA_ASSERT(m_junction != nullptr);
     m_router = m_junction->router();
