@@ -68,6 +68,31 @@ Software using one or more of the Adaptagrams libraries include:
  *  [Gaphas][gaphor], an open source Python-based diagramming widget for GTK+, and
  *  [BRL-CAD][brlcad], a powerful cross-platform open source solid modeling system that includes interactive geometry editing, high-performance ray-tracing for rendering and geometric analysis, image and signal-processing tools, a system performance analysis benchmark suite, libraries for robust geometric representation, with more than 20 years of active development.
 
+Contributing and support
+------------------------
+
+This fork ([Aksem/adaptagrams](https://github.com/Aksem/adaptagrams)) is maintained
+together with [libavoid-js][libavoid-js]. Contributions are very welcome! Feel free
+to open a pull request, report a bug, suggest a feature or ask a question in
+[GitHub Issues](https://github.com/Aksem/adaptagrams/issues).
+
+Please keep in mind that we maintain this fork as an open-source initiative in our
+free time. We read every issue and do our best to help, but we can't promise
+response times or deadlines for fixes and new features.
+
+If you need something done within a fixed timeframe, or want dedicated help, paid
+support is available. This can be any kind of work on this repository, for example:
+
+ *  bug fixes, new features or performance improvements in the Adaptagrams libraries,
+ *  integrating Adaptagrams (natively or via libavoid-js) into your project,
+ *  building new projects on top of these libraries.
+
+To discuss your needs, please get in touch using the contact details on the
+[maintainer's GitHub profile](https://github.com/Aksem).
+
+Please note that this offer is separate from the commercial licensing described
+above, which is provided by Monash University for the original Adaptagrams libraries.
+
 Building
 --------
 
